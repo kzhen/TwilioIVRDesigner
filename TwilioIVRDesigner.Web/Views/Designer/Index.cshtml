@@ -1,0 +1,115 @@
+﻿@{
+  ViewBag.Title = "Index";
+}
+
+<style>
+  .window
+  {
+    border: 1px solid #346789;
+    box-shadow: 2px 2px 19px #aaa;
+    -o-box-shadow: 2px 2px 19px #aaa;
+    -webkit-box-shadow: 2px 2px 19px #aaa;
+    -moz-box-shadow: 2px 2px 19px #aaa;
+    -moz-border-radius: 0.5em;
+    border-radius: 0.5em;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    width: 5em;
+    height: 5em;
+    line-height: 5em;
+    text-align: center;
+    z-index: 20;
+    position: absolute;
+    background-color: #eeeeef;
+    color: black;
+    font-family: helvetica;
+    padding: 0.5em;
+    font-size: 0.9em;
+  }
+</style>
+
+@section scripts
+{
+  <script type="text/javascript">
+    var nextContainer = 2;
+
+    function TwilioSayVerb() {
+      var self = this;
+
+      self.voice = "man";
+      self.language = "en-gb";
+      self.loop = 1;
+      self.text = "";
+    }
+
+    var sayVerb1 = new TwilioSayVerb();
+
+    jsPlumb.ready(function () {
+      jsPlumb.Defaults.Container = $("#designer-canvas");
+      // your jsPlumb related init code goes here
+      //var e0 = jsPlumb.addEndpoint("container0");
+
+      jsPlumb.draggable($(".window"), {
+        containment: "parent"
+      });
+
+      var endpointOptions = { isSource: true, isTarget: true, connectorStyle: { lineWidth: 2, strokeStyle: 'blue' } };
+
+      var window3Endpoint = jsPlumb.addEndpoint('container0', { anchor: "BottomCenter" }, endpointOptions);
+
+    });
+
+    //$(".twilio-gather")
+    $(document).on("click", ".twilio-gather", null, function (evt) {
+      $("#twilio-item-properties").text(evt);
+    });
+
+    $("#btnAddGatherVerb").click(function () {
+      var twilioGatherDiv = document.createElement("div");
+      twilioGatherDiv.setAttribute("class", "window twilio-gather");
+      twilioGatherDiv.id = "container" + nextContainer++;
+      $(twilioGatherDiv).text("<Gather2>");
+
+      $("#designer-canvas").append($(twilioGatherDiv));
+
+      jsPlumb.draggable($(".window"), {
+        containment: "parent"
+      });
+    });
+
+    $("#btnAddSayVerb").click(function () {
+
+      var id = nextContainer++;
+      var twilioGatherDiv = document.createElement("div");
+      twilioGatherDiv.setAttribute("class", "window twilio-say");
+      twilioGatherDiv.id = "container" + id;
+      $(twilioGatherDiv).text("<Say - "+id+">");
+
+      $("#designer-canvas").append($(twilioGatherDiv));
+
+      jsPlumb.draggable($(".window"), {
+        containment: "parent"
+      });
+    });
+
+  </script>
+}
+
+<h2>Index</h2>
+
+<div class="row-fluid">
+  <div class="span2"  style="border: 1px solid #000">
+    Here you can select what you want to add to the designer:
+      <button id="btnAddGatherVerb" class="btn" type="button">&lt;Gather&gt;</button>
+    <button id="btnAddSayVerb" class="btn" type="button">&lt;Say&gt;</button>
+  </div>
+  <div class="span7" id="designer-canvas"  style="border: 1px solid #000; height:500px;">
+    <div id="container0" class="window" style="left: 505px; top: 128px;">Entry point</div>
+  </div>
+  <div class="span3" id="twilio-item-properties" style="border: 1px solid #000">
+    Select an item to edit
+  </div>
+</div>
+
+
+
