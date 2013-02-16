@@ -3,8 +3,7 @@
 }
 
 <style>
-  .window
-  {
+  .window {
     border: 1px solid #346789;
     box-shadow: 2px 2px 19px #aaa;
     -o-box-shadow: 2px 2px 19px #aaa;
@@ -64,6 +63,11 @@
       $("#twilio-item-properties").text(evt);
     });
 
+    var baseConnectorStyle = { lineWidth: 2, strokeStyle: 'blue' };
+
+    var gatherEndpointOptions = { isSource: true, isTarget: true, connectorStye: baseConnectorStyle };
+    var sayEndpointOptions = { isSource: true, isTarget: true, connectorStye: baseConnectorStyle };
+
     $("#btnAddGatherVerb").click(function () {
       var twilioGatherDiv = document.createElement("div");
       twilioGatherDiv.setAttribute("class", "window twilio-gather");
@@ -71,6 +75,8 @@
       $(twilioGatherDiv).text("<Gather2>");
 
       $("#designer-canvas").append($(twilioGatherDiv));
+
+      jsPlumb.addEndpoint(twilioGatherDiv.id, { anchor: 'TopCenter' }, gatherEndpointOptions);
 
       jsPlumb.draggable($(".window"), {
         containment: "parent"
@@ -83,13 +89,15 @@
       var twilioGatherDiv = document.createElement("div");
       twilioGatherDiv.setAttribute("class", "window twilio-say");
       twilioGatherDiv.id = "container" + id;
-      $(twilioGatherDiv).text("<Say - "+id+">");
+      $(twilioGatherDiv).text("<Say - " + id + ">");
 
       $("#designer-canvas").append($(twilioGatherDiv));
 
       jsPlumb.draggable($(".window"), {
         containment: "parent"
       });
+
+      jsPlumb.addEndpoint(twilioGatherDiv.id, { anchor: 'TopCenter' }, sayEndpointOptions);
     });
 
   </script>
@@ -98,12 +106,12 @@
 <h2>Index</h2>
 
 <div class="row-fluid">
-  <div class="span2"  style="border: 1px solid #000">
+  <div class="span2" style="border: 1px solid #000">
     Here you can select what you want to add to the designer:
       <button id="btnAddGatherVerb" class="btn" type="button">&lt;Gather&gt;</button>
     <button id="btnAddSayVerb" class="btn" type="button">&lt;Say&gt;</button>
   </div>
-  <div class="span7" id="designer-canvas"  style="border: 1px solid #000; height:500px;">
+  <div class="span7" id="designer-canvas" style="border: 1px solid #000; height: 500px;">
     <div id="container0" class="window" style="left: 505px; top: 128px;">Entry point</div>
   </div>
   <div class="span3" id="twilio-item-properties" style="border: 1px solid #000">
