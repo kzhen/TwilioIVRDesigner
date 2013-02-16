@@ -65,7 +65,7 @@
 
     var baseConnectorStyle = { lineWidth: 2, strokeStyle: 'blue' };
 
-    var gatherEndpointOptions = { isSource: true, isTarget: true, connectorStye: baseConnectorStyle };
+    var gatherEndpointOptions = { isSource: true, isTarget: true, connectorStyle: baseConnectorStyle, maxConnections: 3 };
     var sayEndpointOptions = { isSource: true, isTarget: true, connectorStye: baseConnectorStyle };
 
     $("#btnAddGatherVerb").click(function () {
@@ -77,6 +77,7 @@
       $("#designer-canvas").append($(twilioGatherDiv));
 
       jsPlumb.addEndpoint(twilioGatherDiv.id, { anchor: 'TopCenter' }, gatherEndpointOptions);
+      jsPlumb.addEndpoint(twilioGatherDiv.id, { anchor: 'BottomCenter' }, gatherEndpointOptions);
 
       jsPlumb.draggable($(".window"), {
         containment: "parent"
