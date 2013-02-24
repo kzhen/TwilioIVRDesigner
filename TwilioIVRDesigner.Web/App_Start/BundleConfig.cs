@@ -22,6 +22,9 @@ namespace TwilioIVRDesigner.Web
                   "~/Scripts/jsPlumb/jquery.jsPlumb-1.3.16-all.js",
                   "~/Scripts/knockout-2.2.1.js"));
 
+      bundles.Add(new ScriptBundle("~/bundles/jsapp").Include(
+                  "~/Scripts/app/main.js"));
+
       bundles.Add(new StyleBundle("~/bundles/bootstrap").Include(
                   "~/Content/bootstrap.css",
                   "~/Content/bootstrap-responsive.css"));
