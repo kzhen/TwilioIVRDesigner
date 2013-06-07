@@ -4,7 +4,7 @@
       baseConnectorStyle = { lineWidth: 2, strokeStyle: 'blue' },
       gatherEndpointOptions = { isSource: true, isTarget: true, connectorStyle: baseConnectorStyle, maxConnections: 3 },
       sayEndpointOptions = { isSource: true, isTarget: true, connectorStye: baseConnectorStyle },
-      endpointOptions = { isSource: true, isTarget: true, connectorStyle: { lineWidth: 2, strokeStyle: 'blue' } };
+      endpointOptions = { isSource: true, isTarget: true, connectorStyle: { lineWidth: 2, strokeStyle: 'blue' }, maxConnections: 1 };
 
   jsPlumbInit = function () {
     jsPlumb.Defaults.Container = $("#designer-canvas");
@@ -30,12 +30,19 @@
 
       $("#designer-canvas").append($(twilioGatherDiv));
 
-      jsPlumb.addEndpoint(twilioGatherDiv.id, { anchor: 'TopCenter' }, gatherEndpointOptions);
-      jsPlumb.addEndpoint(twilioGatherDiv.id, { anchor: 'BottomCenter' }, gatherEndpointOptions);
+      var ep1 = jsPlumb.addEndpoint(twilioGatherDiv.id, { anchor: 'TopCenter' }, gatherEndpointOptions);
+      var ep2 = jsPlumb.addEndpoint(twilioGatherDiv.id, { anchor: 'BottomCenter' }, gatherEndpointOptions);
 
       jsPlumb.draggable($(".window"), {
         containment: "parent"
       });
+
+      $(twilioGatherDiv).dblclick(function (evt) {
+        jsPlumb.deleteEndpoint(ep1);
+        jsPlumb.deleteEndpoint(ep2);
+        this.remove();
+      });
+
     });
 
     $("#btnAddSayVerb").click(function () {
@@ -52,7 +59,12 @@
         containment: "parent"
       });
 
-      jsPlumb.addEndpoint(twilioGatherDiv.id, { anchor: 'TopCenter' }, sayEndpointOptions);
+      var ep = jsPlumb.addEndpoint(twilioGatherDiv.id, { anchor: 'TopCenter' }, sayEndpointOptions);
+
+      $(twilioGatherDiv).dblclick(function (evt) {
+        jsPlumb.deleteEndpoint(ep);
+        this.remove();
+      });
     });
 
     var window3Endpoint = jsPlumb.addEndpoint('container0', { anchor: "BottomCenter" }, endpointOptions);
