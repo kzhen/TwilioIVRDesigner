@@ -1,26 +1,34 @@
 ﻿(function () {
   
   var nextContainer = 2,
-      baseConnectorStyle = { lineWidth: 2, strokeStyle: 'blue' },
+      baseConnectorStyle = { lineWidth: 2, strokeStyle: 'blue',  },
       gatherEndpointOptions = { isSource: true, isTarget: true, connectorStyle: baseConnectorStyle, maxConnections: 3 },
-      sayEndpointOptions = { isSource: true, isTarget: true, connectorStye: baseConnectorStyle },
-      endpointOptions = { isSource: true, isTarget: true, connectorStyle: { lineWidth: 2, strokeStyle: 'blue' }, maxConnections: 1 };
+      sayEndpointOptions = { isSource: true, isTarget: true, connectorStyle: baseConnectorStyle },
+      endpointOptions = { isSource: true, isTarget: true, connectorStyle: baseConnectorStyle, maxConnections: 1 };
 
   jsPlumbInit = function () {
     jsPlumb.Defaults.Container = $("#designer-canvas");
-    // your jsPlumb related init code goes here
-    //var e0 = jsPlumb.addEndpoint("container0");
 
     jsPlumb.draggable($(".window"), {
       containment: "parent"
+    });
+
+    jsPlumb.bind("dblclick", function (connection, originalEvent) {
+      console.info("double click on connection from " + connection.sourceId + " to " + connection.targetId);
     });
   };
 
   mainViewInit = function () {
 
     $(document).on("click", ".twilio-gather", null, function (evt) {
-      $("#twilio-item-properties").text(evt);
+      $("#twilio-item-properties").text(evt + " " + $(this).text());
     });
+
+    $(document).on("click", ".twilio-say", null, function (evt) {
+      $("#twilio-item-properties").text(evt + " " + $(this).text());
+    });
+
+    
 
     $("#btnAddGatherVerb").click(function () {
       var twilioGatherDiv = document.createElement("div");
@@ -60,9 +68,12 @@
       });
 
       var ep = jsPlumb.addEndpoint(twilioGatherDiv.id, { anchor: 'TopCenter' }, sayEndpointOptions);
+      var ep2 = jsPlumb.addEndpoint(twilioGatherDiv.id, { anchor: 'BottomCenter' }, sayEndpointOptions);
+
 
       $(twilioGatherDiv).dblclick(function (evt) {
         jsPlumb.deleteEndpoint(ep);
+        jsPlumb.deleteEndpoint(ep2);
         this.remove();
       });
     });
