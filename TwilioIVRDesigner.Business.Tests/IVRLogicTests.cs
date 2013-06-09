@@ -17,7 +17,9 @@ namespace TwilioIVRDesigner.Business.Tests
 
         VoiceRequest request = new VoiceRequest();
 
-        logic.EntryPoint(request);
+        var response = logic.EntryPoint(request);
+
+        Assert.IsTrue(response.ToString().Contains("<Say>"));
       }
 
       [TestMethod]
@@ -27,7 +29,9 @@ namespace TwilioIVRDesigner.Business.Tests
 
         VoiceRequest request = new VoiceRequest();
 
-        logic.EntryPoint(request);
+        var response = logic.EntryPoint(request);
+
+        Assert.Fail();
       }
     }
 
@@ -37,7 +41,7 @@ namespace TwilioIVRDesigner.Business.Tests
       [TestMethod]
       public void When_SayIsTheNextInstruction_Should_ReturnSay()
       {
-        
+        Assert.Fail();
       }
     }
   }
