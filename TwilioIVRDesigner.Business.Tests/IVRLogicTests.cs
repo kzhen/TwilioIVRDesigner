@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Twilio.Mvc;
 
 namespace TwilioIVRDesigner.Business.Tests
 {
@@ -10,7 +11,31 @@ namespace TwilioIVRDesigner.Business.Tests
     public class EntryPointTests
     {
       [TestMethod]
-      public void ShouldDoSomethingInteresting()
+      public void When_SayIsTheFirstInstruction_Should_ReturnSay()
+      {
+        IVRLogic logic = new IVRLogic();
+
+        VoiceRequest request = new VoiceRequest();
+
+        logic.EntryPoint(request);
+      }
+
+      [TestMethod]
+      public void When_NoInstructionsAreSetup_Should_ReturnDefaultMessage()
+      {
+        IVRLogic logic = new IVRLogic();
+
+        VoiceRequest request = new VoiceRequest();
+
+        logic.EntryPoint(request);
+      }
+    }
+
+    [TestClass]
+    public class NextInstructionTests
+    {
+      [TestMethod]
+      public void When_SayIsTheNextInstruction_Should_ReturnSay()
       {
         
       }
